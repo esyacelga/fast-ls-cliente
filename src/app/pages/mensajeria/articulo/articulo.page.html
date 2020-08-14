@@ -1,0 +1,133 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngIf="!articulo">
+        <ion-item-group *ngFor="let item of result; let i = index">
+            <ion-text color="success">
+                <h4>{{item.descripcion | uppercase}}</h4>
+            </ion-text>
+            <ion-item-sliding *ngFor="let data of lstArticulo | filter:{articuloSegmento: item._id}; let i = index">
+                <ion-item>
+                    <ion-label><h5>{{data.descripcion | uppercase}}</h5></ion-label>
+                </ion-item>
+                <ion-item-options side="end">
+                    <ion-item-option color="tertiary" (click)="articulo=data">
+                        <ion-icon slot="icon-only" name="pencil"></ion-icon>
+                    </ion-item-option>
+                    <ion-item-option color="danger" (click)="eliminar(data)">
+                        <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-item-group>
+        <ion-button
+                type="submit"
+                (click)="crearNuevo()"
+                color="tertiary"
+                expand="block">Nuevo
+            <ion-icon></ion-icon>
+        </ion-button>
+    </ion-list>
+
+    <ion-list *ngIf="articulo">
+        <ion-button
+                type="submit"
+                (click)="registrarNuevo(articulo)"
+                color="success"
+                expand="block">Guardar.
+            <ion-icon></ion-icon>
+        </ion-button>
+        <ion-button
+                type="submit"
+                (click)="articulo=null"
+                color="warning"
+                expand="block">Cancelar
+            <ion-icon></ion-icon>
+        </ion-button>
+
+        <ion-item>
+            <ion-label>Tipo Artículo</ion-label>
+            <ion-select [(ngModel)]="articulo.articuloSegmento.tipoArticulo"
+                        okText="Ok" cancelText="Cancelar">
+                <ion-select-option *ngFor="let item  of lstTipoArticulo"
+                                   value="{{item._id}}">{{item.nombre|uppercase}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Segmento</ion-label>
+            <ion-select [(ngModel)]="articulo.articuloSegmento._id"
+                        okText="Ok" cancelText="Cancelar">
+                <ion-select-option
+                        *ngFor="let item  of lstSegmento | filtroSegmento:{tipoArticulo: articulo.articuloSegmento.tipoArticulo}; "
+                        value="{{item._id}}">{{item.descripcion|uppercase}}</ion-select-option>
+            </ion-select>
+
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Descripcion</ion-label>
+            <ion-input class="ion-text-uppercase" [(ngModel)]="articulo.descripcion"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="floating">Unidad Almacenada</ion-label>
+            <ion-input type="number" [(ngModel)]="articulo.unidadAlmacenada"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Costo por unidad</ion-label>
+            <ion-input type="number" [(ngModel)]="articulo.unidadCosto"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Es servicio</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="articulo.esServicio"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+            <ion-label>Permite Comentar</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="articulo.permiteComentar"></ion-checkbox>
+        </ion-item>
+
+        <ion-row>
+            <ion-col size="6">
+                <ion-button expand="full"
+                            ion-button
+                            (click)="camara()"
+                            shape="round">
+                    <ion-icon slot="start" name="camera"></ion-icon>
+                    Cámara
+                </ion-button>
+            </ion-col>
+            <ion-col size="6">
+                <ion-button expand="full"
+                            ion-button
+                            (click)="libreria()"
+                            shape="round">
+                    <ion-icon slot="start" name="images"></ion-icon>
+                    Galería
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-col size="3" *ngIf="!articulo.imagenEditada">
+            ACTUAL
+            <ion-card>
+
+                <ion-slide class="image-slide"
+                           [style]=" (articulo.portada | imagen: articulo.articuloSegmento._id ) | domSanitizer ">
+                </ion-slide>
+                <ion-label>{{articulo.portada}}</ion-label>
+            </ion-card>
+        </ion-col>
+        <ion-col size="3" *ngIf="articulo.imagenEditada">
+            EDITADO
+            <ion-card>
+                <img [src]="articulo.imagenEditada | imageSanitizer">
+            </ion-card>
+        </ion-col>
+    </ion-list>
+</ion-content>
+

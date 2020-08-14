@@ -1,68 +1,91 @@
-import {Component} from '@angular/core';
-
-import {NavController, Platform} from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {StorageAppService} from './modules/system/generic/service/storage-app.service';
+import {NavController, Platform} from '@ionic/angular';
 import {PushNotificationService} from './modules/system/generic/service/push-notification.service';
-import {ModeloTipoUsuarioPersona} from './modules/classes/persona/TipoUsuarioPersona';
 
 @Component({
     selector: 'app-root',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss']
+    styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
-    usuario: any;
-    modeloPersonaTipoUsuario: ModeloTipoUsuarioPersona;
+export class AppComponent implements OnInit {
+    public selectedIndex = 0;
+    public appPages = [
+        {
+            title: 'Pedidos',
+            url: 'managment',
+            icon: 'calculator',
+        },
+        {
+            title: 'Articulo',
+            url: 'articulo',
+            icon: 'cube',
+        },
+        {
+            title: 'Persona Adm',
+            url: 'dato-persona',
+            icon: 'body',
+        },
+        {
+            title: 'Notificador',
+            url: 'notificacion-masiva',
+            icon: 'notifications',
+        },
+        {
+            title: 'Rol',
+            url: 'tipo-usuario',
+            icon: 'body',
+        },
+        {
+            title: 'Rol Persona',
+            url: 'rol-persona',
+            icon: 'body',
+        },
+        {
+            title: 'Tipo Articulo',
+            url: 'tipo-articulo',
+            icon: 'cube',
+        },
 
-    /*public simInfo: any;
-    public cards: any;*/
+        {
+            title: 'Sector',
+            url: '/sector',
+            icon: 'clipboard',
+        },
+        {
+            title: 'Segmento',
+            url: 'segmento',
+            icon: 'bookmarks',
+        },
+    ];
+    public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
     constructor(
         private platform: Platform,
+        private navCtrl: NavController,
+        private svtNotificacion: PushNotificationService,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
-        private navCtrl: NavController,
-        private svrStorage: StorageAppService,
-        private svtNotificacion: PushNotificationService
     ) {
         this.initializeApp();
     }
 
-    /*
-        async obtencionInformacionTelefono() {
-            try {
-                const simPermission = await this.sim.requestReadPermission();
-                if (simPermission === 'OK') {
-                    const simData = await this.sim.getSimInfo();
-                    this.simInfo = simData;
-                    this.cards = simData.cards;
-                    console.log(simData);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }*/
-
-    initializeApp() {
-        this.platform.ready().then(async () => {
-            this.iniciaPulginCordova();
-            this.modeloPersonaTipoUsuario = (await this.svrStorage.loadStorageObject('usuario')) as ModeloTipoUsuarioPersona;
-            if (this.modeloPersonaTipoUsuario && this.modeloPersonaTipoUsuario.usuario && this.modeloPersonaTipoUsuario.usuario.clave) {
-                this.navCtrl.navigateRoot('main');
-            } else {
-                this.navCtrl.navigateRoot('login');
-            }
+   public initializeApp() {
+        this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            this.iniciaPulginCordova();
         });
     }
 
-    iniciaPulginCordova() {
+    public ngOnInit() {
+        this.navCtrl.navigateRoot('managment');
+    }
+
+    public iniciaPulginCordova() {
         if (this.platform.is('cordova')) {
-            // this.obtencionInformacionTelefono();
-            this.svtNotificacion.configuracionProcesoNotificacion();
+            this.svtNotificacion.configuracionInicial();
         }
     }
 

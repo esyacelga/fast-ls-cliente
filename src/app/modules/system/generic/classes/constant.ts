@@ -17,6 +17,7 @@ export const COLOR_TOAST_ERROR = 'danger'
 export const COLOR_TOAST_MEDIUM = 'medium';
 export const COLOR_TOAST_DARK = 'dark';
 export const COLOR_TOAST_MORADO = 'tertiary';
+export const OBTENER_EVIO_NOTIFICACION = 'notificacion';
 
 
 // Contantes servicios rest

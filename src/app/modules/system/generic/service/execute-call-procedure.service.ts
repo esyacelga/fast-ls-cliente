@@ -20,7 +20,7 @@ import {ImageObject} from '../classes/ImageObject';
     providedIn: 'root'
 })
 export class ExecuteCallProcedureService {
-    mostrarMensaje: boolean = false;
+    mostrarMensaje = false;
 
     constructor(private utilService: Util,
                 private notify: ToastController,
@@ -163,9 +163,17 @@ export class ExecuteCallProcedureService {
             }, async error => {
                 const mensaje = this.errorToMessage(error, urlRestService);
                 if (mensaje) {
-                    await this.loading.dismiss('messagesService.loadMessagesOverview');
                     this.presentToast(mensaje, COLOR_TOAST_ERROR);
+                    await this.loading.dismiss('messagesService.loadMessagesOverview');
                 }
+                /*
+                                if (options.mostrar === 1) {
+                                    await this.loading.dismiss('messagesService.loadMessagesOverview');
+                                }
+                                if (options.mostrar === 1) {
+                                    this.presentToast(options.errorMessage, COLOR_TOAST_ERROR);
+                                }
+                */
                 reject(error);
             });
         });
@@ -173,18 +181,22 @@ export class ExecuteCallProcedureService {
     }
 
     public errorToMessage(error, nombreRest) {
-        let tituloError = '';
+        let tituloError = 'Ha ocurrido un error: ';
         let detalleError = 'Log: ' + nombreRest;
         if (error.error) {
             if (error.error.message) {
                 tituloError = tituloError + error.error.message;
+            } else if (error.message) {
+                tituloError = error.message;
             }
         }
-        tituloError = tituloError;
-        if (error.error.errors === undefined) {
-            return 'Error de conexion al servidor de aplicaciones';
+        tituloError = '<p>' + tituloError + '</p>';
+        if (error.error && error.error.errors && error.error.errors.errors) {
+            detalleError = this.lectorError(error.error.errors.errors);
+        } else {
+            return 'No se puede conectar: ' + tituloError;
         }
-        detalleError = this.lectorError(error.error.errors.errors);
+
         if (this.mostrarMensaje === true) {
             return tituloError + ' </br> ' + detalleError;
         } else {
@@ -224,17 +236,14 @@ export class ExecuteCallProcedureService {
             if (messages.toastColor === undefined) {
                 messages.toastColor = COLOR_TOAST_PRIMARY;
             }
-            if (messages.presentarToast === undefined) {
-                messages.presentarToast = true;
-            }
 
             await this.loading.present('messagesService.loadMessagesOverview', messages.loadingMessage);
             if (!genericObject._id) {
+
                 this.restConnection.genericPostRestFull(genericObject, urlRestService).subscribe(async resp => {
                     await this.loading.dismiss('messagesService.loadMessagesOverview');
-                    if (messages.presentarToast === true) {
-                        this.presentToast(messages.successMessaje, messages.toastColor);
-                    }
+                    this.presentToast(messages.successMessaje, messages.toastColor);
+
                     let obj = null;
                     if (messages.responseType === 1) {
                         obj = resp;
@@ -242,6 +251,7 @@ export class ExecuteCallProcedureService {
                         obj = resp.objeto;
                     }
                     resolve(obj);
+
                 }, async httpError => {
                     const mensaje = this.lectorError(httpError.error.errors.errors);
                     await this.loading.dismiss('messagesService.loadMessagesOverview');
@@ -255,9 +265,7 @@ export class ExecuteCallProcedureService {
             } else {
                 this.restConnection.genericPutRestFull(genericObject, urlRestService).subscribe(async resp => {
                     await this.loading.dismiss('messagesService.loadMessagesOverview');
-                    if (messages.presentarToast === true) {
-                        this.presentToast(messages.successMessaje, messages.toastColor);
-                    }
+                    this.presentToast(messages.successMessaje, messages.toastColor);
                     let obj = null;
                     if (messages.responseType === 1) {
                         obj = resp;
@@ -328,7 +336,6 @@ export class ExecuteCallProcedureService {
     private async presentToast(mensaje, color) {
         const toast = await this.notify.create({
             message: mensaje,
-            position: 'top',
             duration: DURATION_TOAST,
             color
         });

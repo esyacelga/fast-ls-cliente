@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {RegistroMensajes} from '../../classes/login/RegistroMensajes';
-import {SectorService} from '../../services/persona/sector.service';
-import {TipoUsuarioService} from '../../services/persona/tipo-usuario.service';
-import {Sector} from '../../classes/persona/Sector';
-import {Util} from '../../system/generic/classes/util';
-import {COLOR_TOAST_DARK, COLOR_TOAST_WARNING} from '../../system/generic/classes/constant';
-import {ModeloPersona, ModeloTipoUsuarioPersona, TipoUsuarioPersonaDto} from '../../classes/persona/TipoUsuarioPersona';
-import {StorageAppService} from '../../system/generic/service/storage-app.service';
-import {PersonaService} from '../../services/persona/persona.service';
 import {ModalController} from '@ionic/angular';
-import {PhotoProfilePage} from '../../pages/photo-profile/photo-profile.page';
-import {TipoUsuarioPersonaService} from '../../services/persona/tipo-usuario-persona.service';
+import {RegistroMensajes} from '../../../classes/login/RegistroMensajes';
+import {Sector} from '../../../classes/persona/Sector';
+import {ModeloPersona, ModeloTipoUsuarioPersona, TipoUsuarioPersonaDto} from '../../../classes/persona/TipoUsuarioPersona';
+import {COLOR_TOAST_DARK, COLOR_TOAST_WARNING} from '../../system/generic/classes/constant';
+import {Util} from '../../system/generic/classes/util';
+import {StorageAppService} from '../../system/generic/service/storage-app.service';
+import {PhotoProfilePage} from '../../../pages/photo-profile/photo-profile.page';
+import {PersonaService} from '../../../services/persona/persona.service';
+import {SectorService} from '../../../services/persona/sector.service';
+import {TipoUsuarioPersonaService} from '../../../services/persona/tipo-usuario-persona.service';
+import {TipoUsuarioService} from '../../../services/persona/tipo-usuario.service';
 
 @Component({
     selector: 'app-profile',
@@ -19,15 +19,15 @@ import {TipoUsuarioPersonaService} from '../../services/persona/tipo-usuario-per
     styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-    imagen: string;
-    ruta: string;
-    tipoUsuarioPersona: TipoUsuarioPersonaDto;
-    ingresoForm: FormGroup;
-    lstSectores: Sector[];
-    modeloPersonaTipoUsuario: ModeloTipoUsuarioPersona;
-    registoMensajes: RegistroMensajes = new RegistroMensajes();
-    error_messages = this.registoMensajes.error_messages;
-    esUsuarioFirebase = false;
+    public imagen: string;
+    public ruta: string;
+    public tipoUsuarioPersona: TipoUsuarioPersonaDto;
+    public ingresoForm: FormGroup;
+    public lstSectores: Sector[];
+    public modeloPersonaTipoUsuario: ModeloTipoUsuarioPersona;
+    public registoMensajes: RegistroMensajes = new RegistroMensajes();
+    public error_messages = this.registoMensajes.error_messages;
+    public esUsuarioFirebase = false;
 
     constructor(private formFuilder: FormBuilder, private svrSector: SectorService,
                 private svtTipoUsuariPersona: TipoUsuarioPersonaService,
@@ -38,49 +38,48 @@ export class ProfileComponent implements OnInit {
         this.cargar();
     }
 
-
-    async cargar() {
+    public async cargar() {
         this.modeloPersonaTipoUsuario = (await this.svrStorage.loadStorageObject('usuario')) as ModeloTipoUsuarioPersona;
         this.imagen = this.modeloPersonaTipoUsuario.imagen;
         this.ruta = this.modeloPersonaTipoUsuario._id;
     }
 
-    async abrirModal() {
+    public async abrirModal() {
         const modal = await this.modalCtrl.create({
             component: PhotoProfilePage,
-            componentProps: {title: 's', tipoError: 's', mensaje: 'mensajeError'}
+            componentProps: {title: 's', tipoError: 's', mensaje: 'mensajeError'},
         });
         await modal.present();
         const {data} = await modal.onDidDismiss();
     }
 
-    construirFormRegistro() {
+    public construirFormRegistro() {
         this.ingresoForm = this.formFuilder.group({
             nombres: new FormControl('', Validators.compose([
                 Validators.required,
                 Validators.minLength(2),
-                Validators.maxLength(150)
+                Validators.maxLength(150),
             ])),
             identificacion: new FormControl('', Validators.compose([
                 Validators.minLength(9),
-                Validators.maxLength(10)
+                Validators.maxLength(10),
             ])),
 
             fechaNacimiento: new FormControl('', Validators.compose([
-                Validators.required
+                Validators.required,
             ])),
             callePrincipal: new FormControl('', Validators.compose([
                 Validators.minLength(2),
-                Validators.maxLength(100)
+                Validators.maxLength(100),
             ])),
             calleSecundaria: new FormControl('', Validators.compose([
                 Validators.minLength(2),
-                Validators.maxLength(100)
+                Validators.maxLength(100),
             ])),
             apellidos: new FormControl('', Validators.compose([
                 Validators.required,
                 Validators.minLength(2),
-                Validators.maxLength(100)
+                Validators.maxLength(100),
             ])),
             segundoApellido: new FormControl('', null),
             sector: new FormControl('', null),
@@ -98,12 +97,11 @@ export class ProfileComponent implements OnInit {
                 Validators.minLength(9),
                 Validators.maxLength(10),
                 Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,2})?$'),
-            ]))
+            ])),
         });
     }
 
-
-    async actualizarPersona() {
+    public async actualizarPersona() {
         this.tipoUsuarioPersona = this.ingresoForm.value;
         this.tipoUsuarioPersona._id = this.modeloPersonaTipoUsuario.persona._id;
         if (this.ingresoForm.status === 'VALID') {
@@ -120,7 +118,7 @@ export class ProfileComponent implements OnInit {
 
     }
 
-    async ngOnInit() {
+    public async ngOnInit() {
         this.lstSectores = await this.svrSector.obtenerSectores();
         const persona: ModeloPersona = await this.svrPersona.obtenerPersonaPorId(this.modeloPersonaTipoUsuario.persona._id);
         this.esUsuarioFirebase = persona.google;
@@ -131,19 +129,18 @@ export class ProfileComponent implements OnInit {
 
     private setearPersona(nombres: string, apellidos: string, identificacion: string, fechaNacimiento, sector: string, clave: string, correo: string, numeroTelefonoConvencional, numeroTelefonoCelular) {
         this.ingresoForm.setValue({
-            nombres,
-            apellidos,
+            nombres: this.util.isNull(nombres, ''),
+            apellidos: this.util.isNull(apellidos, ''),
             segundoApellido: '',
             identificacion: this.util.isNull(identificacion, ''),
             fechaNacimiento: this.util.isNull(fechaNacimiento, ''),
             callePrincipal: '',
             calleSecundaria: '',
             sector: this.util.isNull(sector, ''),
-            correo,
-            numeroTelefonoConvencional,
-            numeroTelefonoCelular,
+            correo: this.util.isNull(correo, ''),
+            numeroTelefonoConvencional: this.util.isNull(numeroTelefonoConvencional, ''),
+            numeroTelefonoCelular: this.util.isNull(numeroTelefonoCelular, ''),
         });
     }
-
 
 }

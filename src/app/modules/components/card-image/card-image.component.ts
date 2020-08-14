@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Articulo} from '../../classes/mensajeria/Articulo';
+import {Articulo} from '../../../classes/mensajeria/Articulo';
 
 @Component({
     selector: 'app-card-image',

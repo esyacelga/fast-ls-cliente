@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TipoArticulo} from '../../classes/mensajeria/tipo-articulo';
-import {Segmento} from '../../classes/mensajeria/Segmento';
-import {Articulo} from '../../classes/mensajeria/Articulo';
-import {SegmentoService} from '../../services/mensajeria/segmento.service';
-import {ArticuloService} from '../../services/mensajeria/articulo.service';
+import {TipoArticulo} from '../../../classes/mensajeria/tipo-articulo';
+import {Segmento} from '../../../classes/mensajeria/Segmento';
+import {SegmentoService} from '../../../services/mensajeria/segmento.service';
+import {Articulo} from '../../../classes/mensajeria/Articulo';
+import {ArticuloService} from '../../../services/mensajeria/articulo.service';
+
 
 
 @Component({

@@ -6,13 +6,13 @@ import {Storage} from '@ionic/storage';
     providedIn: 'root'
 })
 export class StorageAppService {
-    objGuardado: any = null;
+    public objGuardado: any = null;
 
     constructor(private storage: Storage, private platform: Platform) {
 
     }
 
-    eliminarTodo() {
+    public eliminarTodo() {
         if (this.platform.is('cordova')) {
             this.storage.clear();
 
@@ -21,7 +21,7 @@ export class StorageAppService {
         }
     }
 
-    loadStorageObject(key: string) {
+    public loadStorageObject(key: string) {
         const promesa = new Promise((resolve, reject) => {
             if (this.platform.is('cordova')) {
                 this.storage.get(key).then((val) => {
@@ -50,7 +50,7 @@ export class StorageAppService {
         return promesa;
     }
 
-    setStorageObject(obj, key) {
+    public setStorageObject(obj, key) {
         if (this.platform.is('cordova')) {
             this.storage.set(key, obj);
         } else {

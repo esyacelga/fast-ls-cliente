@@ -11,10 +11,9 @@ export class Util {
 
     constructor(private notify: ToastController, private navCtrl: NavController) {
 
-
     }
 
-    identificacionPayload(payload: Payload) {
+    public identificacionPayload(payload: Payload) {
         if (payload && payload.additionalData && payload.additionalData.ruta) {
             this.navCtrl.navigateForward(payload.additionalData.ruta);
         }
@@ -28,12 +27,6 @@ export class Util {
         return value;
     }
 
-    public isVoid(value, ifnull) {
-        if (this.isNull(value, ifnull) === '') {
-            return ifnull;
-        }
-        return value;
-    }
 
     public buscarObjetoPorCampo(lista: [], campo: string, valor: string) {
         let obj;
@@ -52,17 +45,21 @@ export class Util {
         return obj;
     }
 
+    public isVoid(value, ifnull) {
+        if (this.isNull(value, ifnull) === '') {
+            return ifnull;
+        }
+        return value;
+    }
 
     public async presentToast(mensaje, color) {
         const toast = await this.notify.create({
-            position: 'top',
             message: mensaje,
             duration: DURATION_TOAST,
             color
         });
         toast.present();
     }
-
 
     public toXML = function(json: any) {
         return null;

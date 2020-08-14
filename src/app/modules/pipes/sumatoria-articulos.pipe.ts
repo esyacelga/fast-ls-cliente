@@ -1,5 +1,5 @@
 import {OnChanges, Pipe, PipeTransform, SimpleChanges} from '@angular/core';
-import {SolcitudDetalleModel} from '../classes/mensajeria/SolcitudCabeceraModel';
+import {SolcitudDetalleModel} from '../../classes/mensajeria/SolcitudCabeceraModel';
 
 @Pipe({
     name: 'sumatoriaArticulos'

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ImageObject} from '../../system/generic/classes/ImageObject';
 import {RequestOptions} from '../../system/generic/classes/RequestOptions';
-import {URL_CRUD_ARTICULO_IMAGE_UPLOAD} from '../../constantes/ConstanteTransaccional';
 import {ExecuteCallProcedureService} from '../../system/generic/service/execute-call-procedure.service';
+import {URL_CRUD_ARTICULO_IMAGE_UPLOAD} from '../../../constantes/ConstanteTransaccional';
 
 @Injectable({
     providedIn: 'root'

@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {PedidoResumen} from '../classes/mensajeria/Pedido';
+import {PedidoResumen} from '../../classes/mensajeria/Pedido';
 
 @Pipe({
     name: 'filtroPedido'

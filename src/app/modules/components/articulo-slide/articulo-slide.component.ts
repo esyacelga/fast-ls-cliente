@@ -1,17 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Segmento} from '../../classes/mensajeria/Segmento';
-import {Articulo} from '../../classes/mensajeria/Articulo';
-import {SolcitudDetalleModel} from '../../classes/mensajeria/SolcitudCabeceraModel';
-import {SolicitudService} from '../../services/mensajeria/solicitud.service';
+
 import {Util} from '../../system/generic/classes/util';
 import {StorageAppService} from '../../system/generic/service/storage-app.service';
 import {COLOR_TOAST_MORADO, COLOR_TOAST_WARNING} from '../../system/generic/classes/constant';
-import {CommentComponentComponent} from '../comment-component/comment-component.component';
-import {ModalController} from '@ionic/angular';
-import {ModeloTipoUsuarioPersona} from '../../classes/persona/TipoUsuarioPersona';
-import {LikeDislikeService} from '../../services/common/likeDislike.service';
-import {LikeDislike} from '../../classes/common/LikeDislike';
-import {Observable, Subscriber} from 'rxjs';
+import {Segmento} from '../../../classes/mensajeria/Segmento';
+import {Articulo} from '../../../classes/mensajeria/Articulo';
+import {SolcitudDetalleModel} from '../../../classes/mensajeria/SolcitudCabeceraModel';
+import {SolicitudService} from '../../../services/mensajeria/solicitud.service';
 
 @Component({
     selector: 'app-articulo-slide',
@@ -22,61 +17,13 @@ export class ArticuloSlideComponent implements OnInit {
     @Input() segmento: Segmento;
     @Input() lstArticulo: Array<Articulo>;
 
-    public lstDetalle: SolcitudDetalleModel[] = [];
-    public comentarioActivado = false;
-    public modeloPersonaTipoUsuario: ModeloTipoUsuarioPersona;
-    private objArticulo: Articulo;
-    private conteoLike: Observable<number>;
-    private conteoDisLike: Observable<number>;
-    private conteoComentarios: Observable<number>;
+    lstDetalle: SolcitudDetalleModel[] = [];
 
-
-    constructor(private svrSolicitud: SolicitudService,
-                private utilSvr: Util,
-                private svrStorage: StorageAppService,
-                private modalCtrl: ModalController,
-                private  svrLike: LikeDislikeService) {
+    constructor(private svrSolicitud: SolicitudService, private utilSvr: Util, private svrStorage: StorageAppService) {
     }
-
-    public async abrirModal(item: Articulo) {
-        const modal = await this.modalCtrl.create({
-            component: CommentComponentComponent,
-            componentProps: {
-                objArticulo: item,
-                objTipoUsuarioPersona: this.modeloPersonaTipoUsuario
-            }
-        });
-        await modal.present();
-        const {data} = await modal.onDidDismiss();
-        if (data && data.objArt && data.objArt.conteoComentarios) {
-            this.conteoComentarios = new Observable<number>((observer: Subscriber<number>) => {
-                observer.next(data.objArt.conteoComentarios);
-            });
-        }
-        /*     if (data && data.objArt && data.objArt.conteoComentarios) {
-                 for (let i = 0; this.lstArticulo.length > 0; i++) {
-                     if (this.lstArticulo[i]._id === data.objArt._id) {
-                         this.lstArticulo[i] = data.objArt;
-                     }
-                 }
-             }*/
-    }
-
-    public async actualizarLike(item: Articulo, like: boolean) {
-        let objLike: LikeDislike = new LikeDislike(this.modeloPersonaTipoUsuario.persona, item, like, true);
-        objLike = (await this.svrLike.registar(objLike) as LikeDislike);
-        this.conteoLike = new Observable<number>((observer: Subscriber<number>) => {
-            observer.next(objLike.articulo.conteoLike);
-        });
-        this.conteoDisLike = new Observable<number>((observer: Subscriber<number>) => {
-            observer.next(objLike.articulo.conteoDisLike);
-        });
-        return objLike.articulo;
-    }
-
 
     async seleccionarArticulo(item: Articulo) {
-        this.objArticulo = item;
+
         await this.svrSolicitud.getDetalleSolicitud();
         // @ts-ignore
         this.lstDetalle = await this.svrSolicitud.lstDetalle;
@@ -93,8 +40,7 @@ export class ArticuloSlideComponent implements OnInit {
         this.utilSvr.presentToast('Este artículo se ha agregado a su orden de compra', COLOR_TOAST_MORADO);
     }
 
-    async ngOnInit() {
-        this.modeloPersonaTipoUsuario = (await this.svrStorage.loadStorageObject('usuario')) as ModeloTipoUsuarioPersona;
+    ngOnInit() {
     }
 
 }

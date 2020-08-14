@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {VehiculoRutaService} from '../../services/ruta/vehiculo-ruta.service';
-import {IntegranteRuta, ModeloDisponibilidad, RutaDto, RutaIntegranteDto} from '../../classes/ruta/vehiculo/DsiponibilidadVehiculo';
-import {ModeloTipoUsuarioPersona} from '../../classes/persona/TipoUsuarioPersona';
 import {StorageAppService} from '../../system/generic/service/storage-app.service';
+import {IntegranteRuta, ModeloDisponibilidad, RutaDto, RutaIntegranteDto} from '../../../classes/ruta/vehiculo/DsiponibilidadVehiculo';
+import {VehiculoRutaService} from '../../../services/ruta/vehiculo-ruta.service';
+import {ModeloTipoUsuarioPersona} from '../../../classes/persona/TipoUsuarioPersona';
 
 @Component({
     selector: 'app-solicitud-ruta',
