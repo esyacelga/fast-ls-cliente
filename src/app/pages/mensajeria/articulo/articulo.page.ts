@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
 import {Articulo, ObjetoArticulo} from '../../../classes/mensajeria/Articulo';
 import {ArticuloSegmento} from '../../../classes/mensajeria/articulo-segmento';
 import {TipoArticulo} from '../../../classes/mensajeria/tipo-articulo';
@@ -46,47 +46,6 @@ export class ArticuloPage implements OnInit {
         this.lstTipoArticulo = await this.srvTipoArticulo.obtenerTipoArticulos();
     }
 
-    public camara() {
-        const options: CameraOptions = {
-            quality: 60,
-            destinationType: this.camera.DestinationType.FILE_URI,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.CAMERA,
-        };
-        console.log('Entro a camara procesar camara');
-        this.procesarImagen(options);
-    }
-
-    public libreria() {
-        console.log('Por Librerria');
-        const options: CameraOptions = {
-            quality: 60,
-            destinationType: this.camera.DestinationType.FILE_URI,
-            encodingType: this.camera.EncodingType.JPEG,
-            mediaType: this.camera.MediaType.PICTURE,
-            correctOrientation: true,
-            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        };
-        this.procesarImagen(options);
-    }
-
-    public procesarImagen(options: CameraOptions) {
-        if (this.articulo && this.articulo.articuloSegmento && this.articulo.articuloSegmento._id) {
-            this.camera.getPicture(options).then((imageData) => {
-                // @ts-ignore
-                const img = window.Ionic.WebView.convertFileSrc(imageData);
-                this.articulo.imagenEditada = img;
-                this.svcArticulo.subirImagen(imageData, this.articulo.articuloSegmento._id);
-            }, (err) => {
-                // Handle error
-            });
-        } else {
-            this.util.presentToast('Debe seleccionar el segmento antes de cargar la imagen', COLOR_TOAST_WARNING);
-        }
-
-    }
 
     public crearNuevo() {
         this.articulo = new ObjetoArticulo();
