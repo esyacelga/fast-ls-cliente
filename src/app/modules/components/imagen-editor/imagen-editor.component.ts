@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {ImageGeneratorService} from '../image-generator/image-generator.service';
 
@@ -7,7 +7,7 @@ import {ImageGeneratorService} from '../image-generator/image-generator.service'
     templateUrl: './imagen-editor.component.html',
     styleUrls: ['./imagen-editor.component.scss'],
 })
-export class ImagenEditorComponent implements OnInit {
+export class ImagenEditorComponent implements OnInit, OnDestroy {
     @Input() public directorio = '';
     @Input() public idImagen = '';
 
@@ -17,6 +17,14 @@ export class ImagenEditorComponent implements OnInit {
 
     ngOnInit() {
     }
+
+
+    ngOnDestroy() {
+        this.directorio = '';
+        this.idImagen = '';
+        this.svrImagen.imagenObtenida = null;
+    }
+
 
     public seleccionarPorLibreria() {
         const options: CameraOptions = {
