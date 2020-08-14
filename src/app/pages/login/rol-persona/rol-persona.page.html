@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
@@ -7,9 +7,9 @@
     {{playerID}}
 </ion-header>
 
-<ion-content fullscreen>
-    <ion-list [hidden]="objPersona" *ngFor="let persona of lstPersona">
-        <ion-item (click)="selecionPersona(persona._id);objPersona=persona">
+<ion-content fullscreen color="dark">
+    <ion-list [hidden]="objPersona" *ngFor="let persona of lstPersona" color="dark">
+        <ion-item (click)="selecionPersona(persona._id);objPersona=persona" color="dark">
             <ion-avatar slot="start">
                 <img [src]="persona.picture">
             </ion-avatar>
@@ -21,9 +21,9 @@
         </ion-item>
     </ion-list>
 
-    <ion-list *ngIf="objPersona">
+    <ion-list *ngIf="objPersona" color="dark">
         <ion-card>
-            <ion-item>
+            <ion-item color="dark">
                 <ion-avatar slot="start">
                     <img [src]="objPersona.picture">
                 </ion-avatar>
@@ -36,7 +36,7 @@
         </ion-card>
 
         <div *ngFor="let item of lstTipoUsuarioPersona">
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label>{{item.tipoUsuario.descripcion}}</ion-label>
                 <ion-note slot="end" color="primary">{{item.usuario.playerId}}</ion-note>
             </ion-item>

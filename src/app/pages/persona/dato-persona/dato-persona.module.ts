@@ -7,7 +7,7 @@ import {IonicModule} from '@ionic/angular';
 
 import {DatoPersonaPage} from './dato-persona.page';
 import {ComponentModule} from '../../../modules/components/component.module';
-import {PhotoProfilePage} from '../../photo-profile/photo-profile.page';
+
 import {ImageGeneratorComponent} from '../../../modules/components/image-generator/image-generator.component';
 import {PipesModule} from '../../../modules/pipes/pipes.module';
 
@@ -27,7 +27,7 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes)
     ],
-    declarations: [DatoPersonaPage, PhotoProfilePage, ImageGeneratorComponent]
+    declarations: [DatoPersonaPage, ImageGeneratorComponent]
 })
 
 export class DatoPersonaPageModule {

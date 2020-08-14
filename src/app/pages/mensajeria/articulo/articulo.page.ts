@@ -60,6 +60,7 @@ export class ArticuloPage implements OnInit {
     }
 
     public libreria() {
+        console.log('Por Librerria');
         const options: CameraOptions = {
             quality: 60,
             destinationType: this.camera.DestinationType.FILE_URI,

@@ -14,14 +14,12 @@ import {RestConectionModule} from './modules/system/generic/rest-conection/rest-
 import {IonicStorageModule} from '@ionic/storage';
 import {ComponentModule} from './modules/components/component.module';
 import {OneSignal} from '@ionic-native/onesignal/ngx';
-import {PhotoProfilePageModule} from './pages/photo-profile/photo-profile.module';
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, RestConectionModule, IonicStorageModule.forRoot()],
     providers: [
-        PhotoProfilePageModule,
         ComponentModule,
         StatusBar,
         Camera,

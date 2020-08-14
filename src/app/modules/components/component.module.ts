@@ -2,7 +2,6 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IonicModule} from '@ionic/angular';
-import {PhotoProfilePage} from '../../pages/photo-profile/photo-profile.page';
 import {PipesModule} from '../pipes/pipes.module';
 import {ArticuloSlideComponent} from './articulo-slide/articulo-slide.component';
 import {AvatarSelectorComponent} from './avatar-selector/avatar-selector.component';
@@ -12,12 +11,13 @@ import {MapaComponent} from './mapa/mapa.component';
 import {PedidosComponent} from './pedidos/pedidos.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SolicitudRutaComponent} from './solicitud-ruta/solicitud-ruta.component';
+import {ImagenEditorComponent} from './imagen-editor/imagen-editor.component';
 
 @NgModule({
-    declarations: [AvatarSelectorComponent, MapaComponent, SolicitudRutaComponent, ProfileComponent,
+    declarations: [AvatarSelectorComponent, MapaComponent, SolicitudRutaComponent, ProfileComponent, ImagenEditorComponent,
         CardImageComponent, ItemSeleccionadoComponent, ArticuloSlideComponent, PedidosComponent],
     exports: [
-        AvatarSelectorComponent, MapaComponent, SolicitudRutaComponent, ProfileComponent,
+        AvatarSelectorComponent, MapaComponent, SolicitudRutaComponent, ProfileComponent, ImagenEditorComponent,
         CardImageComponent, ItemSeleccionadoComponent, ArticuloSlideComponent, PedidosComponent
     ],
     imports: [
@@ -26,7 +26,7 @@ import {SolicitudRutaComponent} from './solicitud-ruta/solicitud-ruta.component'
         FormsModule,
         IonicModule,
         ReactiveFormsModule,
-    ], entryComponents: [PhotoProfilePage],
+    ], entryComponents: [],
 })
 export class ComponentModule {
 }

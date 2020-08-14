@@ -1,15 +1,15 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content color="dark">
 
-    <ion-list *ngIf="segmentoArticulo">
+    <ion-list *ngIf="segmentoArticulo" color="dark">
 
-        <ion-item>
+        <ion-item color="dark">
             <ion-label>Tipo Articulo</ion-label>
             <ion-select [(ngModel)]="segmentoArticulo.tipoArticulo"
                         okText="Aceptar" cancelText="Cancelar">
@@ -35,9 +35,9 @@
             <ion-icon></ion-icon>
         </ion-button>
     </ion-list>
-    <ion-list *ngIf="!segmentoArticulo">
+    <ion-list *ngIf="!segmentoArticulo" color="dark">
         <ion-item-sliding *ngFor="let item of lstSegmento; let i = index">
-            <ion-item>
+            <ion-item color="dark">
                 <ion-label>{{item.descripcion | uppercase}}</ion-label>
             </ion-item>
             <ion-item-options side="end">

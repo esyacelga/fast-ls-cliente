@@ -12,7 +12,7 @@ export class Articulo {
     public coords: string;
     public esServicio: false;
     public permiteComentar: false;
-    public imgs?: string[];
+    public img?: string[];
 }
 
 
@@ -29,5 +29,5 @@ export class ObjetoArticulo {
     public esServicio: false;
     public permiteComentar: false;
     public coords: string;
-    public imgs?: string[];
+    public img?: string[];
 }

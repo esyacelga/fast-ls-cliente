@@ -1,19 +1,20 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="dark">
+
     <ion-list *ngIf="!articulo">
         <ion-item-group *ngFor="let item of result; let i = index">
             <ion-text color="success">
                 <h4>{{item.descripcion | uppercase}}</h4>
             </ion-text>
             <ion-item-sliding *ngFor="let data of lstArticulo | filter:{articuloSegmento: item._id}; let i = index">
-                <ion-item>
+                <ion-item color="dark">
                     <ion-label><h5>{{data.descripcion | uppercase}}</h5></ion-label>
                 </ion-item>
                 <ion-item-options side="end">
@@ -35,64 +36,67 @@
         </ion-button>
     </ion-list>
 
-    <ion-list *ngIf="articulo">
-        <ion-button
-                type="submit"
-                (click)="registrarNuevo(articulo)"
-                color="success"
-                expand="block">Guardar.
-            <ion-icon></ion-icon>
-        </ion-button>
-        <ion-button
-                type="submit"
-                (click)="articulo=null"
-                color="warning"
-                expand="block">Cancelar
-            <ion-icon></ion-icon>
-        </ion-button>
+    <ion-list *ngIf="articulo" color="dark">
+        <ion-card color="dark">
+            <app-imagen-editor [idImagen]="articulo.portada"
+                               [directorio]="articulo.articuloSegmento._id"></app-imagen-editor>
+            <ion-card-content>
+                <ion-item color="dark">
+                    <ion-label>Tipo Artículo</ion-label>
+                    <ion-select [(ngModel)]="articulo.articuloSegmento.tipoArticulo"
+                                okText="Ok" cancelText="Cancelar">
+                        <ion-select-option *ngFor="let item  of lstTipoArticulo"
+                                           value="{{item._id}}">{{item.nombre|uppercase}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item color="dark">
+                    <ion-label>Segmento</ion-label>
+                    <ion-select [(ngModel)]="articulo.articuloSegmento._id"
+                                okText="Ok" cancelText="Cancelar">
+                        <ion-select-option
+                                *ngFor="let item  of lstSegmento | filtroSegmento:{tipoArticulo: articulo.articuloSegmento.tipoArticulo}; "
+                                value="{{item._id}}">{{item.descripcion|uppercase}}</ion-select-option>
+                    </ion-select>
 
-        <ion-item>
-            <ion-label>Tipo Artículo</ion-label>
-            <ion-select [(ngModel)]="articulo.articuloSegmento.tipoArticulo"
-                        okText="Ok" cancelText="Cancelar">
-                <ion-select-option *ngFor="let item  of lstTipoArticulo"
-                                   value="{{item._id}}">{{item.nombre|uppercase}}</ion-select-option>
-            </ion-select>
-        </ion-item>
+                </ion-item>
+                <ion-item color="dark">
+                    <ion-label position="floating">Descripcion</ion-label>
+                    <ion-input class="ion-text-uppercase" [(ngModel)]="articulo.descripcion"></ion-input>
+                </ion-item>
+                <ion-item color="dark">
+                    <ion-label position="floating">Unidad Almacenada</ion-label>
+                    <ion-input type="number" [(ngModel)]="articulo.unidadAlmacenada"></ion-input>
+                </ion-item>
+                <ion-item color="dark">
+                    <ion-label position="floating">Costo por unidad</ion-label>
+                    <ion-input type="number" [(ngModel)]="articulo.unidadCosto"></ion-input>
+                </ion-item>
+                <ion-item color="dark">
+                    <ion-label>Es servicio</ion-label>
+                    <ion-checkbox slot="end" [(ngModel)]="articulo.esServicio"></ion-checkbox>
+                </ion-item>
+                <ion-item color="dark">
+                    <ion-label>Permite Comentar</ion-label>
+                    <ion-checkbox slot="end" [(ngModel)]="articulo.permiteComentar"></ion-checkbox>
+                </ion-item>
+                <ion-button
+                        type="submit"
+                        (click)="registrarNuevo(articulo)"
+                        color="success"
+                        expand="block">Guardar.
+                    <ion-icon></ion-icon>
+                </ion-button>
+                <ion-button
+                        type="submit"
+                        (click)="articulo=null"
+                        color="warning"
+                        expand="block">Cancelar
+                    <ion-icon></ion-icon>
+                </ion-button>
+            </ion-card-content>
+        </ion-card>
 
-        <ion-item>
-            <ion-label>Segmento</ion-label>
-            <ion-select [(ngModel)]="articulo.articuloSegmento._id"
-                        okText="Ok" cancelText="Cancelar">
-                <ion-select-option
-                        *ngFor="let item  of lstSegmento | filtroSegmento:{tipoArticulo: articulo.articuloSegmento.tipoArticulo}; "
-                        value="{{item._id}}">{{item.descripcion|uppercase}}</ion-select-option>
-            </ion-select>
-
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Descripcion</ion-label>
-            <ion-input class="ion-text-uppercase" [(ngModel)]="articulo.descripcion"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label position="floating">Unidad Almacenada</ion-label>
-            <ion-input type="number" [(ngModel)]="articulo.unidadAlmacenada"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label position="floating">Costo por unidad</ion-label>
-            <ion-input type="number" [(ngModel)]="articulo.unidadCosto"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Es servicio</ion-label>
-            <ion-checkbox slot="end" [(ngModel)]="articulo.esServicio"></ion-checkbox>
-        </ion-item>
-        <ion-item>
-            <ion-label>Permite Comentar</ion-label>
-            <ion-checkbox slot="end" [(ngModel)]="articulo.permiteComentar"></ion-checkbox>
-        </ion-item>
-
-        <ion-row>
+        <!--<ion-row>
             <ion-col size="6">
                 <ion-button expand="full"
                             ion-button
@@ -111,11 +115,12 @@
                     Galería
                 </ion-button>
             </ion-col>
-        </ion-row>
-        <ion-col size="3" *ngIf="!articulo.imagenEditada">
-            ACTUAL
-            <ion-card>
+        </ion-row>-->
 
+
+        <!--<ion-col size="3" *ngIf="!articulo.imagenEditada">
+            En base
+            <ion-card>
                 <ion-slide class="image-slide"
                            [style]=" (articulo.portada | imagen: articulo.articuloSegmento._id ) | domSanitizer ">
                 </ion-slide>
@@ -123,11 +128,12 @@
             </ion-card>
         </ion-col>
         <ion-col size="3" *ngIf="articulo.imagenEditada">
-            EDITADO
+            En edicion
             <ion-card>
+                {{articulo.imagenEditada}}
                 <img [src]="articulo.imagenEditada | imageSanitizer">
             </ion-card>
-        </ion-col>
+        </ion-col>-->
     </ion-list>
 </ion-content>
 

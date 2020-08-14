@@ -7,7 +7,6 @@ import {StorageAppService} from '../../../modules/system/generic/service/storage
 import {PersonaService} from '../../../services/persona/persona.service';
 import {SectorService} from '../../../services/persona/sector.service';
 import {TipoUsuarioPersonaService} from '../../../services/persona/tipo-usuario-persona.service';
-import {PhotoProfilePage} from '../../photo-profile/photo-profile.page';
 
 @Component({
     selector: 'app-dato-persona',
@@ -42,15 +41,6 @@ export class DatoPersonaPage implements OnInit {
     public async ngOnInit() {
         this.lstPersona = await this.svrPersona.obtenerTodos();
         this.lstSectores = await this.svrSector.obtenerSectores();
-    }
-
-    public async abrirModal() {
-        const modal = await this.modalCtrl.create({
-            component: PhotoProfilePage,
-            componentProps: {title: 's', tipoError: 's', mensaje: 'mensajeError'}
-        });
-        await modal.present();
-        const {data} = await modal.onDidDismiss();
     }
 
 }

@@ -7,7 +7,7 @@ import {ModeloPersona, ModeloTipoUsuarioPersona, TipoUsuarioPersonaDto} from '..
 import {COLOR_TOAST_DARK, COLOR_TOAST_WARNING} from '../../system/generic/classes/constant';
 import {Util} from '../../system/generic/classes/util';
 import {StorageAppService} from '../../system/generic/service/storage-app.service';
-import {PhotoProfilePage} from '../../../pages/photo-profile/photo-profile.page';
+
 import {PersonaService} from '../../../services/persona/persona.service';
 import {SectorService} from '../../../services/persona/sector.service';
 import {TipoUsuarioPersonaService} from '../../../services/persona/tipo-usuario-persona.service';
@@ -44,14 +44,7 @@ export class ProfileComponent implements OnInit {
         this.ruta = this.modeloPersonaTipoUsuario._id;
     }
 
-    public async abrirModal() {
-        const modal = await this.modalCtrl.create({
-            component: PhotoProfilePage,
-            componentProps: {title: 's', tipoError: 's', mensaje: 'mensajeError'},
-        });
-        await modal.present();
-        const {data} = await modal.onDidDismiss();
-    }
+
 
     public construirFormRegistro() {
         this.ingresoForm = this.formFuilder.group({
