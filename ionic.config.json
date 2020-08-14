@@ -1,0 +1,7 @@
+{
+  "name": "black-cat-ionic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
