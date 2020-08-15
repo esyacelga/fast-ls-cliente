@@ -11,6 +11,7 @@ export class Articulo {
     public portada: string;
     public coords: string;
     public esServicio: false;
+    public esBanner: false;
     public permiteComentar: false;
     public img?: string[];
 }
@@ -27,6 +28,7 @@ export class ObjetoArticulo {
     public portada: string;
     public imagenEditada: string;
     public esServicio: false;
+    public esBanner: false;
     public permiteComentar: false;
     public coords: string;
     public img?: string[];

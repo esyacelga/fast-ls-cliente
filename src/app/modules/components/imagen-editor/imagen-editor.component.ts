@@ -28,7 +28,7 @@ export class ImagenEditorComponent implements OnInit, OnDestroy {
     }
 
     public seleccionarPorLibreria() {
-        if (this.directorio) {
+        if (!this.directorio) {
             this.util.presentToast('Debe ingresar un directorio valido', COLOR_TOAST_WARNING);
             return;
         }
@@ -45,7 +45,7 @@ export class ImagenEditorComponent implements OnInit, OnDestroy {
     }
 
     public seleccionarPoCamara() {
-        if (this.directorio) {
+        if (!this.directorio) {
             this.util.presentToast('Debe ingresar un directorio valido', COLOR_TOAST_WARNING);
             return;
         }
